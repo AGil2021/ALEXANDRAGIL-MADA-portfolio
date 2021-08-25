@@ -1,6 +1,6 @@
 ---
 title: "My website and data analysis portfolio"
-output: 
+output:  
   html_document:
     toc: FALSE
 ---
