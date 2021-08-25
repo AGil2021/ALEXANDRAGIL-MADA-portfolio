@@ -36,7 +36,7 @@ output: html_document
   
 ### **Usable link**
 [COVID Data Tracker](https://covid.cdc.gov/covid-data-tracker/#vaccinations_vacc-people-onedose-pop-pop18) Is a very interesting website which shows overall US COVID-19 vaccine. You will find: Deliveries and Administration; Maps, charts, and data provided by CDC,** updates daily by 8 pm ET**
-Represents all vaccine partners including jurisdictional partner clinics, retail pharmacies, long-term care facilities, dialysis centers, Federal Emergency Management Agency and Health Resources and Services Administration partner sites, and federal entity facilities.
+Represents all vaccine partners including jurisdictional partner clinics, retail pharmacies, long-term care facilities, dialysis centers, Federal Emergency Management Agency and Health Resources and Services Administration partner sites, and federal entity facilities. 
 
 
     
