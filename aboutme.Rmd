@@ -5,7 +5,7 @@ output: html_document
 
 ## Hello, I'm Alexandra ("Alex")
 
-![ME] (/docs/picture.JPEG)
+![ME] (picture.JPEG)
  
 ### **My Background**
  
