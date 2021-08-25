@@ -5,7 +5,7 @@ output: html_document
 
 ## Hello, I'm Alexandra ("Alex")
 
-![ME] (/MADA/picture.JPEG)
+![ME] (/ALEXANDRAGIL-MADA-portfolio/picture.JPEG)
  
 ### **My Background**
  
