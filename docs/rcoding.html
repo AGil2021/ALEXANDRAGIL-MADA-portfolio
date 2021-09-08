@@ -275,63 +275,41 @@ $(document).ready(function () {
 
 
 <p>This will contain the future R coding exercise.</p>
-<div id="loading-packages-and-calling-data" class="section level3">
-<h3>Loading packages and calling data</h3>
+<div id="loading-packages-and-calling-data" class="section level1">
+<h1><strong>Loading packages and calling data</strong></h1>
+<p>#Load Packages: dlslabs and tidyverse library(“dslabs”) library(“tidyverse”) #Help for gapminder data help(gapminder) #Overview data structure str(gapminder) #Get data summary summary(gapminder) #Determine gapminder type of object class(gapminder)</p>
 </div>
-<div id="load-packages-dlslabs-and-tidyverse" class="section level1">
-<h1>Load Packages: dlslabs and tidyverse</h1>
-<p>library(“dslabs”) library(“tidyverse”) # Help for gapminder data help(gapminder) # Overview data structure str(gapminder) # Get data summary summary(gapminder) # Determine gapminder type of object class(gapminder)</p>
-<div id="processing-data-target-variable" class="section level3">
-<h3>Processing Data (Target Variable)</h3>
-</div>
-</div>
-<div id="create-a-new-object-africadata-in-order-to-analyzed-african-countries" class="section level1">
-<h1>Create a new object “africadata” in order to analyzed African countries</h1>
-<p>africadata &lt;- gapminder %&gt;% filter(continent==“Africa”) # Overview data structure str(africadata) # Get data summary summary(africadata)</p>
+<div id="processing-data-target-variable" class="section level1">
+<h1><strong>Processing Data (Target Variable)</strong></h1>
+<p>#Create a new object “africadata” in order to analyzed African countries africadata &lt;- gapminder %&gt;% filter(continent==“Africa”) #Overview data structure str(africadata) #Get data summary summary(africadata)</p>
 <p>#Create new objects containing infant_mortality and life_expectancy mortality_lifexp &lt;- africadata %&gt;% select(infant_mortality, life_expectancy)</p>
 <p>#Create new objects containing population and life_expectancy population_lifexp &lt;- africadata %&gt;% select(population , life_expectancy)</p>
+<p>#Overview data structure str(mortality_lifexp) str(population_lifexp)</p>
+<p>#Get data summary summary(mortality_lifexp) summary(population_lifexp)</p>
 </div>
-<div id="overview-data-structure" class="section level1">
-<h1>Overview data structure</h1>
-<p>str(mortality_lifexp) str(population_lifexp)</p>
-</div>
-<div id="get-data-summary" class="section level1">
-<h1>Get data summary</h1>
-<p>summary(mortality_lifexp) summary(population_lifexp)</p>
-<div id="visualization-plot-creation-of-the-new-objectsvariables" class="section level3">
-<h3>Visualization: Plot creation of the new objects/variables</h3>
-</div>
-</div>
-<div id="plot-life_expectacy-vs-infant_mortality" class="section level1">
-<h1>Plot life_expectacy vs Infant_mortality</h1>
-<p>ggplot(mortality_lifexp, aes(infant_mortality, life_expectancy)) + geom_point() # This plot shows a negative correlation between infant mortality and life expectancy. 226 rows were removed due to missing values</p>
+<div id="visualization-plot-creation-of-the-new-objectsvariables" class="section level1">
+<h1><strong>Visualization: Plot creation of the new objects/variables</strong></h1>
+<p>#Plot life_expectacy vs Infant_mortality ggplot(mortality_lifexp, aes(infant_mortality, life_expectancy)) + geom_point() #This plot shows a negative correlation between infant mortality and life expectancy. 226 rows were removed due to missing values</p>
 <p>#Plot Life_expectancy Vs Population(log scale) ggplot(population_lifexp, aes(population, life_expectancy)) + geom_point() + scale_x_log10() #This plot shows a positive correlation between Population and Life expectancy. According with africadata, the frame time when the data was collected was between 1960 to 2016, during this time population size and life expectacy got increse. This is the reason of the streaks. ** 51 rows were removed from the plot due to missing values.</p>
-<div id="cleaning-data" class="section level3">
-<h3>Cleaning Data</h3>
-<p>#Finding the year have missing data for infant mortality africadata_na &lt;- africadata %&gt;% select(year, infant_mortality) %&gt;% filter(is.na(infant_mortality)) africadata_na # 1960 - 1981 and 2016 have missing data.</p>
 </div>
+<div id="cleaning-data" class="section level1">
+<h1><strong>Cleaning Data</strong></h1>
+<p>#Finding the year have missing data for infant mortality africadata_na &lt;- africadata %&gt;% select(year, infant_mortality) %&gt;% filter(is.na(infant_mortality)) africadata_na #1960 - 1981 and 2016 have missing data.</p>
+<p>#To avoid missing data a new variable will be created only with data from year 2000 africadata_2000 &lt;- africadata %&gt;% filter(year==2000)</p>
+<p>#Overview data structure str(africadata_2000)</p>
+<p>#Get data summary summary(africadata_2000)</p>
 </div>
-<div id="to-avoid-missing-data-a-new-variable-will-be-created-only-with-data-from-year-2000" class="section level1">
-<h1>To avoid missing data a new variable will be created only with data from year 2000</h1>
-<p>africadata_2000 &lt;- africadata %&gt;% filter(year==2000)</p>
+<div id="visualization-plotting-clean-data" class="section level1">
+<h1><strong>Visualization: Plotting clean data</strong></h1>
+<p>#Plots using only data from year 2000 #Plots will be showed the variable correlation for year 2000 #Plot life expectancy vs infant mortality ggplot(africadata_2000, aes(infant_mortality, life_expectancy)) + geom_point() #The plot shows negative correlation between infant mortality and life expectancy.</p>
+<p>#Plot Life_expectancy Vs Population(log scale) ggplot(africadata_2000, aes(population, life_expectancy)) + geom_point() + scale_x_log10() #The plot does not shows a specific relationship between the population size and the life expectancy.</p>
 </div>
-<div id="overview-data-structure-1" class="section level1">
-<h1>Overview data structure</h1>
-<p>str(africadata_2000)</p>
-</div>
-<div id="get-data-summary-1" class="section level1">
-<h1>Get data summary</h1>
-<p>summary(africadata_2000)</p>
-<p>###Visualization: Plotting clean data</p>
-<p>#Plots using only data from year 2000 #Plots will be showed the variable correlation for year 2000 #Plot life expectancy vs infant mortality ggplot(africadata_2000, aes(infant_mortality, life_expectancy)) + geom_point() # The plot shows negative correlation between infant mortality and life expectancy.</p>
-<p>#Plot Life_expectancy Vs Population(log scale) ggplot(africadata_2000, aes(population, life_expectancy)) + geom_point() + scale_x_log10() # The plot does not shows a specific relationship between the population size and the life expectancy.</p>
-<div id="fitting-linear-regression" class="section level3">
-<h3>Fitting linear regression</h3>
+<div id="fitting-linear-regression" class="section level1">
+<h1><strong>Fitting linear regression</strong></h1>
 <p>#We will use lm function for fit a lineal model with infant mortality as a predictor fit1&lt;- lm(life_expectancy ~ infant_mortality, data=africadata_2000)</p>
 <p>#We will use lm function for fit a lineal model with population as a predictor fit2&lt;- lm(life_expectancy ~ population, data=africadata_2000)</p>
 <p>#Get the summary summary(fit1) summary(fit2)</p>
 <p>#Based on the outcomes of the two models and using their p-values, we can conclude that the infant mortality as a predictor (p-value&lt;0.05) shows a significant correlation with life expectancy. The model with population as a predictor has a p-value&gt;0.05, suggesting that is not a good predictor of life expectancy.</p>
-</div>
 </div>
 
 
