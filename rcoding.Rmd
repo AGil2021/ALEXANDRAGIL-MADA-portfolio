@@ -98,7 +98,71 @@ summary(fit2)
 
 #Based on the outcomes of the two models and using their p-values, we can conclude that the infant mortality as a predictor (p-value<0.05) shows a significant correlation with life expectancy. The model with population as a predictor has a p-value>0.05, suggesting that is not a good predictor of life expectancy.
 
+```
+
+### Part 2 - Data Manipulation
+
+Here we are going to look at population and GDP in India to see if they are good indicators of life expectancy.
+
+```{r}
+library(broom)
+
+#This filters the data so it only holds data from India
+Indiadata <- filter(gapminder, country=="India")
+
+```
+
+Next we create two data frames containing the variables we are looking at.
+
+```{r}
+IndiaPOPLE <- select(Indiadata, population, life_expectancy)
+
+IndiaGDPLE <- select(Indiadata, gdp, life_expectancy)
+
+summary(IndiaPOPLE)
+summary(IndiaGDPLE)
+
+```
+
+### Part 2 - Plotting
+
+```{r}
+ggplot(IndiaPOPLE, aes(x = population, y = life_expectancy)) +
+      geom_point() +
+      xlab("Population") +
+      ylab("Life Expectancy")
+
+ggplot(IndiaGDPLE, aes(x = gdp, y = life_expectancy)) +
+      geom_point() +
+      xlab("GDP") +
+      ylab("Life Expectancy")
+
+```
+
+Both of these have positive associations, the first graph with population and life expectancy in particular has a more stable increase over time, whereas the GDP graph has a more exponential increase.
+
+### Part 2 - Linear Models
+
+
+```{r}
+#These create the linear models with life expectancy as the outcome variable and population/gdp as the predictor
+
+fit3 <- lm(population ~ life_expectancy, IndiaPOPLE)
+
+fit4 <- lm(gdp ~ life_expectancy, IndiaGDPLE)
 
 
 
+summary(fit3)
+summary(fit4)
+
+
+```
+
+Both have p-values<0.05, so they are both statistically significant predictors of life expectancy.
+
+```{r}
+tidy(fit3)
+tidy(fit4)
+```
 
