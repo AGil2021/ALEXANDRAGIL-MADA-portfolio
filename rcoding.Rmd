@@ -8,7 +8,7 @@ output:
 This will contain the future R coding exercise.
 
 # **Loading packages and calling data**
-
+```{r}
 #Load Packages: dlslabs and tidyverse 
 library("dslabs")
 library("tidyverse")
@@ -20,9 +20,10 @@ str(gapminder)
 summary(gapminder)
 #Determine gapminder type of object
 class(gapminder)
+```
 
 # **Processing Data (Target Variable)**
-
+```{r}
 #Create a new object "africadata" in order to analyzed African countries
 africadata <- gapminder %>% filter(continent=="Africa")
 #Overview data structure
@@ -43,10 +44,10 @@ str(population_lifexp)
 #Get data summary
 summary(mortality_lifexp)
 summary(population_lifexp)
-
+```
 
 # **Visualization: Plot creation of the new objects/variables**
-
+```{r}
 #Plot life_expectacy vs Infant_mortality
 ggplot(mortality_lifexp, aes(infant_mortality, life_expectancy)) + geom_point()
 #This plot shows a negative correlation between infant mortality and life expectancy. 226 rows were removed due to missing values
@@ -54,9 +55,9 @@ ggplot(mortality_lifexp, aes(infant_mortality, life_expectancy)) + geom_point()
 #Plot Life_expectancy Vs Population(log scale)
 ggplot(population_lifexp, aes(population, life_expectancy)) + geom_point() + scale_x_log10()
 #This plot shows a positive correlation between Population and Life expectancy. According with africadata, the frame time when the data was collected was between 1960 to 2016, during this time population size and life expectacy got increse. This is the reason of the streaks. ** 51 rows were removed from the plot due to missing values.
-
+```
 # **Cleaning Data**
-
+```{r}
 #Finding the year have missing data for infant mortality
 africadata_na <- africadata %>% select(year, infant_mortality) %>% filter(is.na(infant_mortality))
 africadata_na
@@ -70,9 +71,9 @@ str(africadata_2000)
 
 #Get data summary
 summary(africadata_2000)
-
+```
 # **Visualization: Plotting clean data**
-
+```{r}
 #Plots using only data from year 2000
 #Plots will be showed the variable correlation for year 2000
 #Plot life expectancy vs infant mortality 
@@ -82,9 +83,9 @@ ggplot(africadata_2000, aes(infant_mortality, life_expectancy)) + geom_point()
 #Plot Life_expectancy Vs Population(log scale)
 ggplot(africadata_2000, aes(population, life_expectancy)) + geom_point() + scale_x_log10()
 #The  plot does not shows a specific relationship between the population size and the life expectancy.
-
+```
 # **Fitting linear regression**
-
+```{r}
 #We will use lm  function for fit a lineal model with infant mortality as a predictor
 fit1<- lm(life_expectancy ~ infant_mortality, data=africadata_2000)
 
@@ -96,6 +97,8 @@ summary(fit1)
 summary(fit2)
 
 #Based on the outcomes of the two models and using their p-values, we can conclude that the infant mortality as a predictor (p-value<0.05) shows a significant correlation with life expectancy. The model with population as a predictor has a p-value>0.05, suggesting that is not a good predictor of life expectancy.
+
+
 
 
 
