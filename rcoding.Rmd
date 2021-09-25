@@ -165,4 +165,3 @@ Both have p-values<0.05, so they are both statistically significant predictors o
 tidy(fit3)
 tidy(fit4)
 ```
-
