@@ -164,7 +164,7 @@ Final_Graph <- ggplot()+
            size = 4, 
            fontface = 2,
            vjust = 1,
-           hjust = 0) 
+           hjust = 0)
   
     
 print(Final_Graph)
