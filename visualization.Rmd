@@ -22,23 +22,65 @@ library(here)
 library(readr)
 library(tibble)
 library(lubridate)
+library(tidyverse)
 ```
 
 ### Data import 
 Import the dataset into R 
 ```{r}
-data_location <- here::here("data", "covid_concern_toplines.csv")
+#The graph contains 2 data sets.
 
-data.covid <- read.csv(data_location)
+data1 <- here::here("data", "covid_concern_polls_adjusted.csv")
+Data1 <- read.csv(data1)
 
-str(data.covid)
+data2<- here::here("data", "covid_concern_toplines.csv")
+Data2 <- read.csv(data2)
 
-###Filter by "concern-infected"
+str(Data1)
+str(Data2)
 
-infected<-filter(data.covid, subject=="concern-infected") %>%
-  select(subject, modeldate, very_estimate, somewhat_estimate, not_very_estimate,  not_at_all_estimate)
+glimpse(Data1)
 
+```
+### Cleaning the data 
+```{r}
+concern <- Data1 %>%
+  filter(subject == "concern-infected") %>%
+  select(startdate, very_adjusted, somewhat_adjusted, not_very_adjusted,	not_at_all_adjusted)
+```
+### Covert date format with lubridate package
+```{r}
+ concern$startdate <- mdy(concern$startdate )
+```
+### Creating PLOT 1
+```{r}
+Plot_concern<-ggplot()+
+  geom_point(data = concern, mapping=aes(x=startdate , y= very_adjusted),  
+  alpha=0.2, color="#FF4C00") +
+  
+  geom_point(data = concern, mapping=aes(x=startdate , y= somewhat_adjusted), 
+  alpha=0.2, color="#FCBE85") +
+  
+  geom_point(data = concern, mapping=aes(x=startdate , y= not_very_adjusted), 
+  alpha=0.2, color="#B19CD9") +
+  
+  geom_point(data = concern, mapping=aes(x=startdate , y= not_at_all_adjusted),   alpha=0.2, color="#8B008B") +
 
+  xlab(" ") + 
+  ylab(" ") + scale_y_continuous(limits= c(0, 50), breaks=c(0, 25, 50), labels=c("0", "25", "50%"))
+
+print(Plot_concern)
+```
+
+### Data 2 (Lines)
+#Filter by "concern-infected"
+```{r}
+infected <- Data2 %>%
+       filter(subject=="concern-infected") %>%
+       select(subject, modeldate, very_estimate, somewhat_estimate, not_very_estimate,
+       not_at_all_estimate)
+
+### Covert date format with lubridate package
 infected$modeldate <- mdy(infected$modeldate)
 ```
 ###Creating the plot
@@ -50,13 +92,13 @@ infected$modeldate <- mdy(infected$modeldate)
 #Baby orange = #FCBE85
 
 p1<- ggplot()+   
-     geom_point(data=infected, mapping=aes(x=modeldate, y=very_estimate), alpha=0.2, color="#FF4C00") +
+geom_line(data=infected, mapping=aes(x=modeldate, y=very_estimate), color="#FF4C00") +
   
-geom_point(data=infected, mapping=aes(x=modeldate, y=somewhat_estimate), alpha=0.2, color="#FCBE85") +
+geom_line(data=infected, mapping=aes(x=modeldate, y=somewhat_estimate), color="#FCBE85") +
   
-  geom_point(data=infected, mapping=aes(x=modeldate, y=not_very_estimate), alpha=0.2, color="#B19CD9") +
+geom_line(data=infected, mapping=aes(x=modeldate, y=not_very_estimate), color="#B19CD9") +
   
-  geom_point(data=infected, mapping=aes(x=modeldate, y=not_at_all_estimate), alpha=0.2, color="#8B008B") +
+geom_line(data=infected, mapping=aes(x=modeldate, y=not_at_all_estimate), color="#8B008B") +
   
   xlab(" ") + 
   ylab(" ") + scale_y_continuous(limits= c(0, 50), breaks=c(0, 25, 50), labels=c("0", "25", "50%"))
@@ -64,60 +106,69 @@ geom_point(data=infected, mapping=aes(x=modeldate, y=somewhat_estimate), alpha=0
 print (p1)
   
 ```
-# Plot with lines
-```{r}
-infectedline<- data.covid%>%
-  filter(subject=="concern-infected")
 
-infectedline$modeldate <- mdy(infectedline$modeldate)
-p2<- ggplot()+   
-     geom_line(data=infectedline, mapping=aes(x=modeldate, y=very_estimate), color="#FF4C00") +
+#Its time to combine both plots Plot_concern + p1 (Lines)
+```{r}
+Final_Graph <- ggplot()+
+  geom_point(data = concern, mapping=aes(x=startdate , y= very_adjusted),  
+  alpha=0.2, color="#FF4C00") +
   
-geom_line(data=infectedline, mapping=aes(x=modeldate, y=somewhat_estimate), color="#FCBE85") +
+  geom_point(data = concern, mapping=aes(x=startdate , y= somewhat_adjusted), 
+  alpha=0.2, color="#FCBE85") +
   
-  geom_line(data=infectedline, mapping=aes(x=modeldate, y=not_very_estimate), color="#B19CD9") +
+  geom_point(data = concern, mapping=aes(x=startdate , y= not_very_adjusted), 
+  alpha=0.2, color="#B19CD9") +
   
-  geom_line(data=infectedline, mapping=aes(x=modeldate, y=not_at_all_estimate), color="#8B008B") +
+  geom_point(data = concern, mapping=aes(x=startdate , y= not_at_all_adjusted), 
+  alpha=0.2, color="#8B008B") +
+  
+  geom_line(data=infected, mapping=aes(x=modeldate, y=very_estimate), color="#FF4C00") +
+  
+  geom_line(data=infected, mapping=aes(x=modeldate, y=somewhat_estimate), color="#FCBE85") +
+  
+  geom_line(data=infected, mapping=aes(x=modeldate, y=not_very_estimate), color="#B19CD9") +
+  
+  geom_line(data=infected, mapping=aes(x=modeldate, y=not_at_all_estimate), color="#8B008B") +
   
   xlab(" ") + 
-  ylab(" ") + scale_y_continuous(limits= c(0, 50), breaks=c(0, 25, 50), labels=c("0", "25", "50%"))
+  ylab(" ") + scale_y_continuous(limits= c(0, 50), breaks=c(0, 25, 50), labels=c("0", "25", "50%"))+ 
 
-print (p2)
-  
+   theme_light(base_size = 12, base_family = "mono") +
 
-
-```
-#Its time to combine both plots P1 + P2 
-```{r}
-cp <- ggplot()+
-geom_point(data=infected, mapping=aes(x=modeldate, y=very_estimate), alpha=0.2, color="#FF4C00") +
+    scale_x_date( date_breaks = "1 month", date_labels = "%m/%d")  +
+    annotate(geom = "text", x = as.Date("2021-04-01"), y =35,
+           label = "32.4% Somewhat",
+           color = "#FCBE85",
+           size = 4,
+           fontface = 1,
+           vjust = 1,
+           hjust = 0) +
+    annotate("text", x = as.Date("2021-04-01"), y = 12, 
+           label = "24.4% Very", 
+           color = "#FF4C00", 
+           size = 4, 
+           fontface = 2,
+           vjust = 1,
+           hjust = 0) +
+    annotate("text", x = as.Date("2021-04-01"), y = 26, 
+           label = "26.1% Not Very", 
+           color = "#B19CD9", 
+           size = 4, 
+           fontface = 2,
+           vjust = 1,
+           hjust = 0) +
   
-geom_point(data=infected, mapping=aes(x=modeldate, y=somewhat_estimate), alpha=0.2, color="#FCBE85") +
+    annotate("text", x = as.Date("2021-04-01"), y = 22, 
+           label = "16.5% Not at all", 
+           color = "#8B008B", 
+           size = 4, 
+           fontface = 2,
+           vjust = 1,
+           hjust = 0) 
   
-geom_point(data=infected, mapping=aes(x=modeldate, y=not_very_estimate), alpha=0.2, color="#B19CD9") +
-  
-geom_point(data=infected, mapping=aes(x=modeldate, y=not_at_all_estimate), alpha=0.2, color="#8B008B") +
-  
- geom_line(data=infectedline, mapping=aes(x=modeldate, y=very_estimate), color="#FF4C00") +
-  
-geom_line(data=infectedline, mapping=aes(x=modeldate, y=somewhat_estimate), color="#FCBE85") +
-  
-  geom_line(data=infectedline, mapping=aes(x=modeldate, y=not_very_estimate), color="#B19CD9") +
-  
-  geom_line(data=infectedline, mapping=aes(x=modeldate, y=not_at_all_estimate), color="#8B008B") +
-  
-  xlab(" ") + 
-  ylab(" ") + scale_y_continuous(limits= c(0, 50), breaks=c(0, 25, 50), labels=c("0", "25", "50%")) +
-    scale_x_date( date_breaks = "1 month", date_labels = "%m/%d") +
-    theme_bw() 
     
-print(cp)
-
+print(Final_Graph)
 ```
-
-### HELP!!!
-What is the best way to combine graph? 
-Unfortunately the final graph doesn't look like the original. After multiples intents and hard work I can conclude that the key of the visualization is provide by the knodlege that you have about you raw data. 
 
 
 
