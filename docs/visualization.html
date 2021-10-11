@@ -554,43 +554,63 @@ $(document).ready(function () {
 <span id="cb21-23"><a href="#cb21-23"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot; &quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">scale_y_continuous</span>(<span class="dt">limits=</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">50</span>), <span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">25</span>, <span class="dv">50</span>), <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;0&quot;</span>, <span class="st">&quot;25&quot;</span>, <span class="st">&quot;50%&quot;</span>))<span class="op">+</span><span class="st"> </span></span>
 <span id="cb21-24"><a href="#cb21-24"></a></span>
 <span id="cb21-25"><a href="#cb21-25"></a><span class="st">   </span><span class="kw">theme_light</span>(<span class="dt">base_size =</span> <span class="dv">12</span>, <span class="dt">base_family =</span> <span class="st">&quot;mono&quot;</span>) <span class="op">+</span></span>
-<span id="cb21-26"><a href="#cb21-26"></a></span>
-<span id="cb21-27"><a href="#cb21-27"></a><span class="st">    </span><span class="kw">scale_x_date</span>( <span class="dt">date_breaks =</span> <span class="st">&quot;1 month&quot;</span>, <span class="dt">date_labels =</span> <span class="st">&quot;%m/%d&quot;</span>)  <span class="op">+</span></span>
-<span id="cb21-28"><a href="#cb21-28"></a><span class="st">    </span><span class="kw">annotate</span>(<span class="dt">geom =</span> <span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2021-04-01&quot;</span>), <span class="dt">y =</span><span class="dv">35</span>,</span>
-<span id="cb21-29"><a href="#cb21-29"></a>           <span class="dt">label =</span> <span class="st">&quot;32.4% Somewhat&quot;</span>,</span>
-<span id="cb21-30"><a href="#cb21-30"></a>           <span class="dt">color =</span> <span class="st">&quot;#FCBE85&quot;</span>,</span>
-<span id="cb21-31"><a href="#cb21-31"></a>           <span class="dt">size =</span> <span class="dv">4</span>,</span>
-<span id="cb21-32"><a href="#cb21-32"></a>           <span class="dt">fontface =</span> <span class="dv">1</span>,</span>
-<span id="cb21-33"><a href="#cb21-33"></a>           <span class="dt">vjust =</span> <span class="dv">1</span>,</span>
-<span id="cb21-34"><a href="#cb21-34"></a>           <span class="dt">hjust =</span> <span class="dv">0</span>) <span class="op">+</span></span>
-<span id="cb21-35"><a href="#cb21-35"></a><span class="st">    </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2021-04-01&quot;</span>), <span class="dt">y =</span> <span class="dv">12</span>, </span>
-<span id="cb21-36"><a href="#cb21-36"></a>           <span class="dt">label =</span> <span class="st">&quot;24.4% Very&quot;</span>, </span>
-<span id="cb21-37"><a href="#cb21-37"></a>           <span class="dt">color =</span> <span class="st">&quot;#FF4C00&quot;</span>, </span>
-<span id="cb21-38"><a href="#cb21-38"></a>           <span class="dt">size =</span> <span class="dv">4</span>, </span>
-<span id="cb21-39"><a href="#cb21-39"></a>           <span class="dt">fontface =</span> <span class="dv">2</span>,</span>
-<span id="cb21-40"><a href="#cb21-40"></a>           <span class="dt">vjust =</span> <span class="dv">1</span>,</span>
-<span id="cb21-41"><a href="#cb21-41"></a>           <span class="dt">hjust =</span> <span class="dv">0</span>) <span class="op">+</span></span>
-<span id="cb21-42"><a href="#cb21-42"></a><span class="st">    </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2021-04-01&quot;</span>), <span class="dt">y =</span> <span class="dv">26</span>, </span>
-<span id="cb21-43"><a href="#cb21-43"></a>           <span class="dt">label =</span> <span class="st">&quot;26.1% Not Very&quot;</span>, </span>
-<span id="cb21-44"><a href="#cb21-44"></a>           <span class="dt">color =</span> <span class="st">&quot;#B19CD9&quot;</span>, </span>
-<span id="cb21-45"><a href="#cb21-45"></a>           <span class="dt">size =</span> <span class="dv">4</span>, </span>
-<span id="cb21-46"><a href="#cb21-46"></a>           <span class="dt">fontface =</span> <span class="dv">2</span>,</span>
-<span id="cb21-47"><a href="#cb21-47"></a>           <span class="dt">vjust =</span> <span class="dv">1</span>,</span>
-<span id="cb21-48"><a href="#cb21-48"></a>           <span class="dt">hjust =</span> <span class="dv">0</span>) <span class="op">+</span></span>
-<span id="cb21-49"><a href="#cb21-49"></a><span class="st">  </span></span>
-<span id="cb21-50"><a href="#cb21-50"></a><span class="st">    </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2021-04-01&quot;</span>), <span class="dt">y =</span> <span class="dv">22</span>, </span>
-<span id="cb21-51"><a href="#cb21-51"></a>           <span class="dt">label =</span> <span class="st">&quot;16.5% Not at all&quot;</span>, </span>
-<span id="cb21-52"><a href="#cb21-52"></a>           <span class="dt">color =</span> <span class="st">&quot;#8B008B&quot;</span>, </span>
-<span id="cb21-53"><a href="#cb21-53"></a>           <span class="dt">size =</span> <span class="dv">4</span>, </span>
-<span id="cb21-54"><a href="#cb21-54"></a>           <span class="dt">fontface =</span> <span class="dv">2</span>,</span>
-<span id="cb21-55"><a href="#cb21-55"></a>           <span class="dt">vjust =</span> <span class="dv">1</span>,</span>
-<span id="cb21-56"><a href="#cb21-56"></a>           <span class="dt">hjust =</span> <span class="dv">0</span>) </span>
-<span id="cb21-57"><a href="#cb21-57"></a>  </span>
-<span id="cb21-58"><a href="#cb21-58"></a>    </span>
-<span id="cb21-59"><a href="#cb21-59"></a><span class="kw">print</span>(Final_Graph)</span></code></pre></div>
-<pre><code>## Warning: Removed 4 rows containing missing values (geom_point).</code></pre>
-<pre><code>## Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
-<pre><code>## Warning: Removed 7 rows containing missing values (geom_point).</code></pre>
+<span id="cb21-26"><a href="#cb21-26"></a><span class="st">   </span><span class="kw">theme</span>(</span>
+<span id="cb21-27"><a href="#cb21-27"></a>        <span class="dt">panel.border =</span> <span class="kw">element_rect</span>(<span class="dt">color =</span> <span class="st">&quot;#D3D3D3&quot;</span>),</span>
+<span id="cb21-28"><a href="#cb21-28"></a>        <span class="dt">panel.grid.minor.x =</span> <span class="kw">element_blank</span>(),</span>
+<span id="cb21-29"><a href="#cb21-29"></a>        <span class="dt">panel.grid.minor.y =</span> <span class="kw">element_blank</span>(),  </span>
+<span id="cb21-30"><a href="#cb21-30"></a>        <span class="dt">axis.line.y.left =</span> <span class="kw">element_line</span>(<span class="dt">color =</span> <span class="st">&quot;#D3D3D3&quot;</span>, <span class="dt">linetype =</span> <span class="dv">2</span>),</span>
+<span id="cb21-31"><a href="#cb21-31"></a>        <span class="dt">axis.line.y.right =</span> <span class="kw">element_line</span>(<span class="dt">color =</span>    <span class="st">&quot;#D3D3D3&quot;</span>, <span class="dt">linetype =</span> <span class="dv">2</span>),</span>
+<span id="cb21-32"><a href="#cb21-32"></a>        </span>
+<span id="cb21-33"><a href="#cb21-33"></a>        <span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">colour =</span> <span class="st">&quot;#D3D3D3&quot;</span>),</span>
+<span id="cb21-34"><a href="#cb21-34"></a>        <span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">colour =</span> <span class="st">&quot;#D3D3D3&quot;</span>),</span>
+<span id="cb21-35"><a href="#cb21-35"></a>        <span class="dt">axis.ticks =</span> <span class="kw">element_line</span>(<span class="dt">colour =</span> <span class="st">&quot;#D3D3D3&quot;</span>),</span>
+<span id="cb21-36"><a href="#cb21-36"></a>        <span class="dt">aspect.ratio=</span><span class="dv">3</span><span class="op">/</span><span class="dv">6</span>) <span class="op">+</span></span>
+<span id="cb21-37"><a href="#cb21-37"></a><span class="st">  </span></span>
+<span id="cb21-38"><a href="#cb21-38"></a></span>
+<span id="cb21-39"><a href="#cb21-39"></a><span class="st">    </span><span class="kw">scale_x_date</span>( <span class="dt">date_breaks =</span> <span class="st">&quot;1 month&quot;</span>, <span class="dt">date_labels =</span> <span class="st">&quot;%m/%d&quot;</span>, <span class="dt">limits=</span> <span class="kw">as.Date</span>(<span class="kw">c</span>(<span class="st">&#39;2020-03-01&#39;</span>,<span class="st">&#39;2021-04-01&#39;</span>)))  <span class="op">+</span></span>
+<span id="cb21-40"><a href="#cb21-40"></a><span class="st">    </span><span class="kw">annotate</span>(<span class="dt">geom =</span> <span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2021-04-01&quot;</span>), <span class="dt">y =</span><span class="dv">35</span>,</span>
+<span id="cb21-41"><a href="#cb21-41"></a>           <span class="dt">label =</span> <span class="st">&quot;32.4% Somewhat&quot;</span>,</span>
+<span id="cb21-42"><a href="#cb21-42"></a>           <span class="dt">color =</span> <span class="st">&quot;#FFA500&quot;</span>,</span>
+<span id="cb21-43"><a href="#cb21-43"></a>           <span class="dt">size =</span> <span class="dv">4</span>,</span>
+<span id="cb21-44"><a href="#cb21-44"></a>           <span class="dt">fontface =</span> <span class="dv">1</span>,</span>
+<span id="cb21-45"><a href="#cb21-45"></a>           <span class="dt">vjust =</span> <span class="dv">1</span>,</span>
+<span id="cb21-46"><a href="#cb21-46"></a>           <span class="dt">hjust =</span> <span class="dv">1</span>) <span class="op">+</span></span>
+<span id="cb21-47"><a href="#cb21-47"></a><span class="st">    </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2021-04-01&quot;</span>), <span class="dt">y =</span> <span class="dv">12</span>, </span>
+<span id="cb21-48"><a href="#cb21-48"></a>           <span class="dt">label =</span> <span class="st">&quot;24.4% Very&quot;</span>, </span>
+<span id="cb21-49"><a href="#cb21-49"></a>           <span class="dt">color =</span> <span class="st">&quot;#FF4C00&quot;</span>, </span>
+<span id="cb21-50"><a href="#cb21-50"></a>           <span class="dt">size =</span> <span class="dv">4</span>, </span>
+<span id="cb21-51"><a href="#cb21-51"></a>           <span class="dt">fontface =</span> <span class="dv">2</span>,</span>
+<span id="cb21-52"><a href="#cb21-52"></a>           <span class="dt">vjust =</span> <span class="dv">1</span>,</span>
+<span id="cb21-53"><a href="#cb21-53"></a>           <span class="dt">hjust =</span> <span class="dv">1</span>) <span class="op">+</span></span>
+<span id="cb21-54"><a href="#cb21-54"></a><span class="st">    </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2021-04-01&quot;</span>), <span class="dt">y =</span> <span class="dv">26</span>, </span>
+<span id="cb21-55"><a href="#cb21-55"></a>           <span class="dt">label =</span> <span class="st">&quot;26.1% Not Very&quot;</span>, </span>
+<span id="cb21-56"><a href="#cb21-56"></a>           <span class="dt">color =</span> <span class="st">&quot;#B19CD9&quot;</span>, </span>
+<span id="cb21-57"><a href="#cb21-57"></a>           <span class="dt">size =</span> <span class="dv">4</span>, </span>
+<span id="cb21-58"><a href="#cb21-58"></a>           <span class="dt">fontface =</span> <span class="dv">2</span>,</span>
+<span id="cb21-59"><a href="#cb21-59"></a>           <span class="dt">vjust =</span> <span class="dv">1</span>,</span>
+<span id="cb21-60"><a href="#cb21-60"></a>           <span class="dt">hjust =</span> <span class="dv">1</span>) <span class="op">+</span></span>
+<span id="cb21-61"><a href="#cb21-61"></a><span class="st">  </span></span>
+<span id="cb21-62"><a href="#cb21-62"></a><span class="st">    </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2021-04-01&quot;</span>), <span class="dt">y =</span> <span class="dv">16</span>, </span>
+<span id="cb21-63"><a href="#cb21-63"></a>           <span class="dt">label =</span> <span class="st">&quot;16.5% Not at all&quot;</span>, </span>
+<span id="cb21-64"><a href="#cb21-64"></a>           <span class="dt">color =</span> <span class="st">&quot;#8B008B&quot;</span>, </span>
+<span id="cb21-65"><a href="#cb21-65"></a>           <span class="dt">size =</span> <span class="dv">4</span>, </span>
+<span id="cb21-66"><a href="#cb21-66"></a>           <span class="dt">fontface =</span> <span class="dv">2</span>,</span>
+<span id="cb21-67"><a href="#cb21-67"></a>           <span class="dt">vjust =</span> <span class="dv">1</span>,</span>
+<span id="cb21-68"><a href="#cb21-68"></a>           <span class="dt">hjust =</span> <span class="dv">1</span>)  </span>
+<span id="cb21-69"><a href="#cb21-69"></a>  </span>
+<span id="cb21-70"><a href="#cb21-70"></a>    </span>
+<span id="cb21-71"><a href="#cb21-71"></a><span class="kw">print</span>(Final_Graph) </span></code></pre></div>
+<pre><code>## Warning: Removed 17 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 14 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 13 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 20 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 191 row(s) containing missing values (geom_path).
+
+## Warning: Removed 191 row(s) containing missing values (geom_path).
+
+## Warning: Removed 191 row(s) containing missing values (geom_path).
+
+## Warning: Removed 191 row(s) containing missing values (geom_path).</code></pre>
 <p><img src="visualization_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
 
