@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Visualization</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  { color: #cccccc; background-color: #303030; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ffcfaf; } /* Alert */
+code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #dca3a3; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #f0dfaf; } /* ControlFlow */
+code span.ch { color: #dca3a3; } /* Char */
+code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code span.co { color: #7f9f7f; } /* Comment */
+code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code span.do { color: #7f9f7f; } /* Documentation */
+code span.dt { color: #dfdfbf; } /* DataType */
+code span.dv { color: #dcdccc; } /* DecVal */
+code span.er { color: #c3bf9f; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #c0bed1; } /* Float */
+code span.fu { color: #efef8f; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+code span.kw { color: #f0dfaf; } /* Keyword */
+code span.op { color: #f0efd0; } /* Operator */
+code span.ot { color: #efef8f; } /* Other */
+code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code span.sc { color: #dca3a3; } /* SpecialChar */
+code span.ss { color: #cc9393; } /* SpecialString */
+code span.st { color: #cc9393; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #cc9393; } /* VerbatimString */
+code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">My Data Analysis Portfolio</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="./aboutme.html">About Me</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Projects
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="./rcoding.html">R Coding</a>
+    </li>
+    <li>
+      <a href="./visualization.html">Visualization</a>
+    </li>
+    <li>
+      <a href="./tidytuesday.html">Tidy Tuesday</a>
+    </li>
+    <li>
+      <a href="./tidytuesday_exercise2.html">Tidy Tuesday 2 Exercise</a>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Influenza Project</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="./Flu_Analysis1.html">Flu_Analysis 1</a>
+        </li>
+        <li>
+          <a href="./Flu_Analysis2.html">Flu_Analysis 2</a>
+        </li>
+        <li>
+          <a href="./Flu_Analysis3.html">Flu_Analysis 3</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/AGil2021">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Visualization</h1>
+
+</div>
+
+
+<p>This section focused on recreating a graph from a project from <em>Fivethirtyeight</em> entiteled <em>How Americans View Biden’s Response To The Coronavirus Crisis</em>.</p>
+<p><a href="https://projects.fivethirtyeight.com/coronavirus-polls/">Project Information</a></p>
+<div class="figure">
+<img src="file/original.png" alt="" />
+<p class="caption">Original Graphic</p>
+</div>
+<div id="loading-packages" class="section level3">
+<h3>Loading packages</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">library</span>(here)</span></code></pre></div>
+<pre><code>## here() starts at /Users/alexandragil/Desktop/MADA/ALEXANDRAGIL-MADA-portfolio</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">library</span>(readr)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">library</span>(tibble)</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">library</span>(lubridate)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;lubridate&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     date, intersect, setdiff, union</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
+</div>
+<div id="data-import" class="section level3">
+<h3>Data import</h3>
+<p>Import the dataset into R</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">#The graph contains 2 data sets.</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a></span>
+<span id="cb7-3"><a href="#cb7-3"></a>data1 &lt;-<span class="st"> </span>here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;Visualization_data&quot;</span>,<span class="st">&quot;covid_concern_polls_adjusted.csv&quot;</span>)</span>
+<span id="cb7-4"><a href="#cb7-4"></a>Data1 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(data1)</span>
+<span id="cb7-5"><a href="#cb7-5"></a></span>
+<span id="cb7-6"><a href="#cb7-6"></a>data2&lt;-<span class="st"> </span>here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;Visualization_data&quot;</span>, <span class="st">&quot;covid_concern_toplines.csv&quot;</span>)</span>
+<span id="cb7-7"><a href="#cb7-7"></a>Data2 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(data2)</span>
+<span id="cb7-8"><a href="#cb7-8"></a></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="kw">str</span>(Data1)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    601 obs. of  23 variables:
+##  $ subject            : chr  &quot;concern-economy&quot; &quot;concern-economy&quot; &quot;concern-economy&quot; &quot;concern-economy&quot; ...
+##  $ modeldate          : chr  &quot;10/8/2021&quot; &quot;10/8/2021&quot; &quot;10/8/2021&quot; &quot;10/8/2021&quot; ...
+##  $ party              : chr  &quot;all&quot; &quot;all&quot; &quot;all&quot; &quot;all&quot; ...
+##  $ startdate          : chr  &quot;1/27/2020&quot; &quot;1/31/2020&quot; &quot;2/7/2020&quot; &quot;2/13/2020&quot; ...
+##  $ enddate            : chr  &quot;1/29/2020&quot; &quot;2/2/2020&quot; &quot;2/9/2020&quot; &quot;2/18/2020&quot; ...
+##  $ pollster           : chr  &quot;Morning Consult&quot; &quot;Morning Consult&quot; &quot;Morning Consult&quot; &quot;Kaiser Family Foundation&quot; ...
+##  $ grade              : chr  &quot;B&quot; &quot;B&quot; &quot;B&quot; &quot;&quot; ...
+##  $ samplesize         : num  2202 2202 2200 1207 2200 ...
+##  $ population         : chr  &quot;a&quot; &quot;a&quot; &quot;a&quot; &quot;a&quot; ...
+##  $ weight             : num  0.831 0.756 0.698 1.867 0.484 ...
+##  $ influence          : num  0 0 0 0 0 0 0 0 0 0 ...
+##  $ multiversions      : logi  NA NA NA NA NA NA ...
+##  $ tracking           : logi  NA NA NA NA NA NA ...
+##  $ very               : num  19 26 23 22 32 41 38 36 38 34 ...
+##  $ somewhat           : num  33 32 32 35 37 37 33 36 37 40 ...
+##  $ not_very           : num  23 25 24 28 18 14 13 21 12 19 ...
+##  $ not_at_all         : num  11 7 9 15 6 5 5 6 5 6 ...
+##  $ very_adjusted      : num  15.7 22.7 19.7 26.9 28.7 ...
+##  $ somewhat_adjusted  : num  36.6 35.6 35.6 33.2 40.6 ...
+##  $ not_very_adjusted  : num  26.6 28.6 27.6 25.8 21.6 ...
+##  $ not_at_all_adjusted: num  11.63 7.63 9.63 13.45 6.63 ...
+##  $ timestamp          : chr  &quot;14:00:32  8 Oct 2021&quot; &quot;14:00:32  8 Oct 2021&quot; &quot;14:00:32  8 Oct 2021&quot; &quot;14:00:32  8 Oct 2021&quot; ...
+##  $ url                : chr  &quot;https://morningconsult.com/wp-content/uploads/2020/02/200167_crosstabs_CORONAVIRUS_Adults_v2_JB-1.pdf&quot; &quot;https://morningconsult.com/wp-content/uploads/2020/02/200191_crosstabs_CORONAVIRUS_Adults_v2_JB-1.pdf&quot; &quot;https://morningconsult.com/wp-content/uploads/2020/02/200214_crosstabs_CORONAVIRUS_Adults_v4_JB.pdf&quot; &quot;http://files.kff.org/attachment/Topline-KFF-Health-Tracking-Poll-February-2020&quot; ...</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">str</span>(Data2)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    1176 obs. of  8 variables:
+##  $ subject            : chr  &quot;concern-infected&quot; &quot;concern-economy&quot; &quot;concern-economy&quot; &quot;concern-infected&quot; ...
+##  $ modeldate          : chr  &quot;9/24/2021&quot; &quot;9/24/2021&quot; &quot;9/23/2021&quot; &quot;9/23/2021&quot; ...
+##  $ party              : chr  &quot;all&quot; &quot;all&quot; &quot;all&quot; &quot;all&quot; ...
+##  $ very_estimate      : num  24.5 49 49 24.5 24.5 ...
+##  $ somewhat_estimate  : num  32.5 35.5 35.5 32.5 32.5 ...
+##  $ not_very_estimate  : num  26.2 10.3 10.3 26.2 26.2 ...
+##  $ not_at_all_estimate: num  16.38 3.74 3.74 16.38 16.38 ...
+##  $ timestamp          : chr  &quot;14:00:37 24 Sep 2021&quot; &quot;14:00:33 24 Sep 2021&quot; &quot;12:15:29 23 Sep 2021&quot; &quot;12:15:34 23 Sep 2021&quot; ...</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">glimpse</span>(Data1)</span></code></pre></div>
+<pre><code>## Rows: 601
+## Columns: 23
+## $ subject             &lt;chr&gt; &quot;concern-economy&quot;, &quot;concern-economy&quot;, &quot;concern-eco…
+## $ modeldate           &lt;chr&gt; &quot;10/8/2021&quot;, &quot;10/8/2021&quot;, &quot;10/8/2021&quot;, &quot;10/8/2021&quot;…
+## $ party               &lt;chr&gt; &quot;all&quot;, &quot;all&quot;, &quot;all&quot;, &quot;all&quot;, &quot;all&quot;, &quot;all&quot;, &quot;all&quot;, &quot;…
+## $ startdate           &lt;chr&gt; &quot;1/27/2020&quot;, &quot;1/31/2020&quot;, &quot;2/7/2020&quot;, &quot;2/13/2020&quot;,…
+## $ enddate             &lt;chr&gt; &quot;1/29/2020&quot;, &quot;2/2/2020&quot;, &quot;2/9/2020&quot;, &quot;2/18/2020&quot;, …
+## $ pollster            &lt;chr&gt; &quot;Morning Consult&quot;, &quot;Morning Consult&quot;, &quot;Morning Con…
+## $ grade               &lt;chr&gt; &quot;B&quot;, &quot;B&quot;, &quot;B&quot;, &quot;&quot;, &quot;B&quot;, &quot;&quot;, &quot;B&quot;, &quot;A-&quot;, &quot;B&quot;, &quot;C&quot;, &quot;…
+## $ samplesize          &lt;dbl&gt; 2202, 2202, 2200, 1207, 2200, 1051, 2201, 866, 199…
+## $ population          &lt;chr&gt; &quot;a&quot;, &quot;a&quot;, &quot;a&quot;, &quot;a&quot;, &quot;a&quot;, &quot;a&quot;, &quot;a&quot;, &quot;rv&quot;, &quot;rv&quot;, &quot;a&quot;…
+## $ weight              &lt;dbl&gt; 0.8306209, 0.7564292, 0.6982706, 1.8669666, 0.4844…
+## $ influence           &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
+## $ multiversions       &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+## $ tracking            &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+## $ very                &lt;dbl&gt; 19, 26, 23, 22, 32, 41, 38, 36, 38, 34, 33, 36, 35…
+## $ somewhat            &lt;dbl&gt; 33, 32, 32, 35, 37, 37, 33, 36, 37, 40, 40, 37, 36…
+## $ not_very            &lt;dbl&gt; 23, 25, 24, 28, 18, 14, 13, 21, 12, 19, 19, 16, 14…
+## $ not_at_all          &lt;dbl&gt; 11, 7, 9, 15, 6, 5, 5, 6, 5, 6, 6, 11, 4, 7, 5, 9,…
+## $ very_adjusted       &lt;dbl&gt; 15.67595, 22.67595, 19.67595, 26.94042, 28.67595, …
+## $ somewhat_adjusted   &lt;dbl&gt; 36.57578, 35.57578, 35.57578, 33.17076, 40.57578, …
+## $ not_very_adjusted   &lt;dbl&gt; 26.595179, 28.595179, 27.595179, 25.812578, 21.595…
+## $ not_at_all_adjusted &lt;dbl&gt; 11.630194, 7.630194, 9.630194, 13.449881, 6.630194…
+## $ timestamp           &lt;chr&gt; &quot;14:00:32  8 Oct 2021&quot;, &quot;14:00:32  8 Oct 2021&quot;, &quot;1…
+## $ url                 &lt;chr&gt; &quot;https://morningconsult.com/wp-content/uploads/202…</code></pre>
+</div>
+<div id="cleaning-the-data" class="section level3">
+<h3>Cleaning the data</h3>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>concern &lt;-<span class="st"> </span>Data1 <span class="op">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="st">  </span><span class="kw">filter</span>(subject <span class="op">==</span><span class="st"> &quot;concern-infected&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="st">  </span><span class="kw">select</span>(startdate, very_adjusted, somewhat_adjusted, not_very_adjusted,    not_at_all_adjusted)</span></code></pre></div>
+</div>
+<div id="covert-date-format-with-lubridate-package" class="section level3">
+<h3>Covert date format with lubridate package</h3>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a> concern<span class="op">$</span>startdate &lt;-<span class="st"> </span><span class="kw">mdy</span>(concern<span class="op">$</span>startdate )</span></code></pre></div>
+</div>
+<div id="creating-plot-1" class="section level3">
+<h3>Creating PLOT 1</h3>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>Plot_concern&lt;-<span class="kw">ggplot</span>()<span class="op">+</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> concern, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>startdate , <span class="dt">y=</span> very_adjusted),  </span>
+<span id="cb15-3"><a href="#cb15-3"></a>  <span class="dt">alpha=</span><span class="fl">0.2</span>, <span class="dt">color=</span><span class="st">&quot;#FF4C00&quot;</span>) <span class="op">+</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a><span class="st">  </span></span>
+<span id="cb15-5"><a href="#cb15-5"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> concern, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>startdate , <span class="dt">y=</span> somewhat_adjusted), </span>
+<span id="cb15-6"><a href="#cb15-6"></a>  <span class="dt">alpha=</span><span class="fl">0.2</span>, <span class="dt">color=</span><span class="st">&quot;#FCBE85&quot;</span>) <span class="op">+</span></span>
+<span id="cb15-7"><a href="#cb15-7"></a><span class="st">  </span></span>
+<span id="cb15-8"><a href="#cb15-8"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> concern, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>startdate , <span class="dt">y=</span> not_very_adjusted), </span>
+<span id="cb15-9"><a href="#cb15-9"></a>  <span class="dt">alpha=</span><span class="fl">0.2</span>, <span class="dt">color=</span><span class="st">&quot;#B19CD9&quot;</span>) <span class="op">+</span></span>
+<span id="cb15-10"><a href="#cb15-10"></a><span class="st">  </span></span>
+<span id="cb15-11"><a href="#cb15-11"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> concern, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>startdate , <span class="dt">y=</span> not_at_all_adjusted),   <span class="dt">alpha=</span><span class="fl">0.2</span>, <span class="dt">color=</span><span class="st">&quot;#8B008B&quot;</span>) <span class="op">+</span></span>
+<span id="cb15-12"><a href="#cb15-12"></a></span>
+<span id="cb15-13"><a href="#cb15-13"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot; &quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb15-14"><a href="#cb15-14"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot; &quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">scale_y_continuous</span>(<span class="dt">limits=</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">50</span>), <span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">25</span>, <span class="dv">50</span>), <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;0&quot;</span>, <span class="st">&quot;25&quot;</span>, <span class="st">&quot;50%&quot;</span>))</span>
+<span id="cb15-15"><a href="#cb15-15"></a></span>
+<span id="cb15-16"><a href="#cb15-16"></a><span class="kw">print</span>(Plot_concern)</span></code></pre></div>
+<pre><code>## Warning: Removed 4 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 7 rows containing missing values (geom_point).</code></pre>
+<p><img src="visualization_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="data-2-lines" class="section level3">
+<h3>Data 2 (Lines)</h3>
+<p>#Filter by “concern-infected”</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>infected &lt;-<span class="st"> </span>Data2 <span class="op">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="st">       </span><span class="kw">filter</span>(subject<span class="op">==</span><span class="st">&quot;concern-infected&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="st">       </span><span class="kw">select</span>(subject, modeldate, very_estimate, somewhat_estimate, not_very_estimate,</span>
+<span id="cb19-4"><a href="#cb19-4"></a>       not_at_all_estimate)</span>
+<span id="cb19-5"><a href="#cb19-5"></a></span>
+<span id="cb19-6"><a href="#cb19-6"></a><span class="co">### Covert date format with lubridate package</span></span>
+<span id="cb19-7"><a href="#cb19-7"></a>infected<span class="op">$</span>modeldate &lt;-<span class="st"> </span><span class="kw">mdy</span>(infected<span class="op">$</span>modeldate)</span></code></pre></div>
+<p>###Creating the plot</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="co">#Color-Hex Code</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="co">#LightPurple = #B19CD9</span></span>
+<span id="cb20-3"><a href="#cb20-3"></a><span class="co">#Darkmagenta = #8B008B</span></span>
+<span id="cb20-4"><a href="#cb20-4"></a><span class="co">#Orange = #FF4C00</span></span>
+<span id="cb20-5"><a href="#cb20-5"></a><span class="co">#Baby orange = #FCBE85</span></span>
+<span id="cb20-6"><a href="#cb20-6"></a></span>
+<span id="cb20-7"><a href="#cb20-7"></a>p1&lt;-<span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span><span class="st">   </span></span>
+<span id="cb20-8"><a href="#cb20-8"></a><span class="kw">geom_line</span>(<span class="dt">data=</span>infected, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>modeldate, <span class="dt">y=</span>very_estimate), <span class="dt">color=</span><span class="st">&quot;#FF4C00&quot;</span>) <span class="op">+</span></span>
+<span id="cb20-9"><a href="#cb20-9"></a><span class="st">  </span></span>
+<span id="cb20-10"><a href="#cb20-10"></a><span class="kw">geom_line</span>(<span class="dt">data=</span>infected, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>modeldate, <span class="dt">y=</span>somewhat_estimate), <span class="dt">color=</span><span class="st">&quot;#FCBE85&quot;</span>) <span class="op">+</span></span>
+<span id="cb20-11"><a href="#cb20-11"></a><span class="st">  </span></span>
+<span id="cb20-12"><a href="#cb20-12"></a><span class="kw">geom_line</span>(<span class="dt">data=</span>infected, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>modeldate, <span class="dt">y=</span>not_very_estimate), <span class="dt">color=</span><span class="st">&quot;#B19CD9&quot;</span>) <span class="op">+</span></span>
+<span id="cb20-13"><a href="#cb20-13"></a><span class="st">  </span></span>
+<span id="cb20-14"><a href="#cb20-14"></a><span class="kw">geom_line</span>(<span class="dt">data=</span>infected, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>modeldate, <span class="dt">y=</span>not_at_all_estimate), <span class="dt">color=</span><span class="st">&quot;#8B008B&quot;</span>) <span class="op">+</span></span>
+<span id="cb20-15"><a href="#cb20-15"></a><span class="st">  </span></span>
+<span id="cb20-16"><a href="#cb20-16"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot; &quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb20-17"><a href="#cb20-17"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot; &quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">scale_y_continuous</span>(<span class="dt">limits=</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">50</span>), <span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">25</span>, <span class="dv">50</span>), <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;0&quot;</span>, <span class="st">&quot;25&quot;</span>, <span class="st">&quot;50%&quot;</span>))</span>
+<span id="cb20-18"><a href="#cb20-18"></a></span>
+<span id="cb20-19"><a href="#cb20-19"></a><span class="kw">print</span> (p1)</span></code></pre></div>
+<p><img src="visualization_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>#Its time to combine both plots Plot_concern + p1 (Lines)</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>Final_Graph &lt;-<span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
+<span id="cb21-2"><a href="#cb21-2"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> concern, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>startdate , <span class="dt">y=</span> very_adjusted),  </span>
+<span id="cb21-3"><a href="#cb21-3"></a>  <span class="dt">alpha=</span><span class="fl">0.2</span>, <span class="dt">color=</span><span class="st">&quot;#FF4C00&quot;</span>) <span class="op">+</span></span>
+<span id="cb21-4"><a href="#cb21-4"></a><span class="st">  </span></span>
+<span id="cb21-5"><a href="#cb21-5"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> concern, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>startdate , <span class="dt">y=</span> somewhat_adjusted), </span>
+<span id="cb21-6"><a href="#cb21-6"></a>  <span class="dt">alpha=</span><span class="fl">0.2</span>, <span class="dt">color=</span><span class="st">&quot;#FCBE85&quot;</span>) <span class="op">+</span></span>
+<span id="cb21-7"><a href="#cb21-7"></a><span class="st">  </span></span>
+<span id="cb21-8"><a href="#cb21-8"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> concern, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>startdate , <span class="dt">y=</span> not_very_adjusted), </span>
+<span id="cb21-9"><a href="#cb21-9"></a>  <span class="dt">alpha=</span><span class="fl">0.2</span>, <span class="dt">color=</span><span class="st">&quot;#B19CD9&quot;</span>) <span class="op">+</span></span>
+<span id="cb21-10"><a href="#cb21-10"></a><span class="st">  </span></span>
+<span id="cb21-11"><a href="#cb21-11"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> concern, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>startdate , <span class="dt">y=</span> not_at_all_adjusted), </span>
+<span id="cb21-12"><a href="#cb21-12"></a>  <span class="dt">alpha=</span><span class="fl">0.2</span>, <span class="dt">color=</span><span class="st">&quot;#8B008B&quot;</span>) <span class="op">+</span></span>
+<span id="cb21-13"><a href="#cb21-13"></a><span class="st">  </span></span>
+<span id="cb21-14"><a href="#cb21-14"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>infected, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>modeldate, <span class="dt">y=</span>very_estimate), <span class="dt">color=</span><span class="st">&quot;#FF4C00&quot;</span>) <span class="op">+</span></span>
+<span id="cb21-15"><a href="#cb21-15"></a><span class="st">  </span></span>
+<span id="cb21-16"><a href="#cb21-16"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>infected, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>modeldate, <span class="dt">y=</span>somewhat_estimate), <span class="dt">color=</span><span class="st">&quot;#FCBE85&quot;</span>) <span class="op">+</span></span>
+<span id="cb21-17"><a href="#cb21-17"></a><span class="st">  </span></span>
+<span id="cb21-18"><a href="#cb21-18"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>infected, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>modeldate, <span class="dt">y=</span>not_very_estimate), <span class="dt">color=</span><span class="st">&quot;#B19CD9&quot;</span>) <span class="op">+</span></span>
+<span id="cb21-19"><a href="#cb21-19"></a><span class="st">  </span></span>
+<span id="cb21-20"><a href="#cb21-20"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>infected, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>modeldate, <span class="dt">y=</span>not_at_all_estimate), <span class="dt">color=</span><span class="st">&quot;#8B008B&quot;</span>) <span class="op">+</span></span>
+<span id="cb21-21"><a href="#cb21-21"></a><span class="st">  </span></span>
+<span id="cb21-22"><a href="#cb21-22"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot; &quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb21-23"><a href="#cb21-23"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot; &quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">scale_y_continuous</span>(<span class="dt">limits=</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">50</span>), <span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">25</span>, <span class="dv">50</span>), <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;0&quot;</span>, <span class="st">&quot;25&quot;</span>, <span class="st">&quot;50%&quot;</span>))<span class="op">+</span><span class="st"> </span></span>
+<span id="cb21-24"><a href="#cb21-24"></a></span>
+<span id="cb21-25"><a href="#cb21-25"></a><span class="st">   </span><span class="kw">theme_light</span>(<span class="dt">base_size =</span> <span class="dv">12</span>, <span class="dt">base_family =</span> <span class="st">&quot;mono&quot;</span>) <span class="op">+</span></span>
+<span id="cb21-26"><a href="#cb21-26"></a><span class="st">   </span><span class="kw">theme</span>(</span>
+<span id="cb21-27"><a href="#cb21-27"></a>        <span class="dt">panel.border =</span> <span class="kw">element_rect</span>(<span class="dt">color =</span> <span class="st">&quot;#D3D3D3&quot;</span>),</span>
+<span id="cb21-28"><a href="#cb21-28"></a>        <span class="dt">panel.grid.minor.x =</span> <span class="kw">element_blank</span>(),</span>
+<span id="cb21-29"><a href="#cb21-29"></a>        <span class="dt">panel.grid.minor.y =</span> <span class="kw">element_blank</span>(),  </span>
+<span id="cb21-30"><a href="#cb21-30"></a>        <span class="dt">axis.line.y.left =</span> <span class="kw">element_line</span>(<span class="dt">color =</span> <span class="st">&quot;#D3D3D3&quot;</span>, <span class="dt">linetype =</span> <span class="dv">2</span>),</span>
+<span id="cb21-31"><a href="#cb21-31"></a>        <span class="dt">axis.line.y.right =</span> <span class="kw">element_line</span>(<span class="dt">color =</span>    <span class="st">&quot;#D3D3D3&quot;</span>, <span class="dt">linetype =</span> <span class="dv">2</span>),</span>
+<span id="cb21-32"><a href="#cb21-32"></a>        </span>
+<span id="cb21-33"><a href="#cb21-33"></a>        <span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">colour =</span> <span class="st">&quot;#D3D3D3&quot;</span>),</span>
+<span id="cb21-34"><a href="#cb21-34"></a>        <span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">colour =</span> <span class="st">&quot;#D3D3D3&quot;</span>),</span>
+<span id="cb21-35"><a href="#cb21-35"></a>        <span class="dt">axis.ticks =</span> <span class="kw">element_line</span>(<span class="dt">colour =</span> <span class="st">&quot;#D3D3D3&quot;</span>),</span>
+<span id="cb21-36"><a href="#cb21-36"></a>        <span class="dt">aspect.ratio=</span><span class="dv">3</span><span class="op">/</span><span class="dv">6</span>) <span class="op">+</span></span>
+<span id="cb21-37"><a href="#cb21-37"></a><span class="st">  </span></span>
+<span id="cb21-38"><a href="#cb21-38"></a></span>
+<span id="cb21-39"><a href="#cb21-39"></a><span class="st">    </span><span class="kw">scale_x_date</span>( <span class="dt">date_breaks =</span> <span class="st">&quot;1 month&quot;</span>, <span class="dt">date_labels =</span> <span class="st">&quot;%m/%d&quot;</span>, <span class="dt">limits=</span> <span class="kw">as.Date</span>(<span class="kw">c</span>(<span class="st">&#39;2020-03-01&#39;</span>,<span class="st">&#39;2021-04-01&#39;</span>)))  <span class="op">+</span></span>
+<span id="cb21-40"><a href="#cb21-40"></a><span class="st">    </span><span class="kw">annotate</span>(<span class="dt">geom =</span> <span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2021-04-01&quot;</span>), <span class="dt">y =</span><span class="dv">35</span>,</span>
+<span id="cb21-41"><a href="#cb21-41"></a>           <span class="dt">label =</span> <span class="st">&quot;32.4% Somewhat&quot;</span>,</span>
+<span id="cb21-42"><a href="#cb21-42"></a>           <span class="dt">color =</span> <span class="st">&quot;#FFA500&quot;</span>,</span>
+<span id="cb21-43"><a href="#cb21-43"></a>           <span class="dt">size =</span> <span class="dv">4</span>,</span>
+<span id="cb21-44"><a href="#cb21-44"></a>           <span class="dt">fontface =</span> <span class="dv">1</span>,</span>
+<span id="cb21-45"><a href="#cb21-45"></a>           <span class="dt">vjust =</span> <span class="dv">1</span>,</span>
+<span id="cb21-46"><a href="#cb21-46"></a>           <span class="dt">hjust =</span> <span class="dv">1</span>) <span class="op">+</span></span>
+<span id="cb21-47"><a href="#cb21-47"></a><span class="st">    </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2021-04-01&quot;</span>), <span class="dt">y =</span> <span class="dv">12</span>, </span>
+<span id="cb21-48"><a href="#cb21-48"></a>           <span class="dt">label =</span> <span class="st">&quot;24.4% Very&quot;</span>, </span>
+<span id="cb21-49"><a href="#cb21-49"></a>           <span class="dt">color =</span> <span class="st">&quot;#FF4C00&quot;</span>, </span>
+<span id="cb21-50"><a href="#cb21-50"></a>           <span class="dt">size =</span> <span class="dv">4</span>, </span>
+<span id="cb21-51"><a href="#cb21-51"></a>           <span class="dt">fontface =</span> <span class="dv">2</span>,</span>
+<span id="cb21-52"><a href="#cb21-52"></a>           <span class="dt">vjust =</span> <span class="dv">1</span>,</span>
+<span id="cb21-53"><a href="#cb21-53"></a>           <span class="dt">hjust =</span> <span class="dv">1</span>) <span class="op">+</span></span>
+<span id="cb21-54"><a href="#cb21-54"></a><span class="st">    </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2021-04-01&quot;</span>), <span class="dt">y =</span> <span class="dv">26</span>, </span>
+<span id="cb21-55"><a href="#cb21-55"></a>           <span class="dt">label =</span> <span class="st">&quot;26.1% Not Very&quot;</span>, </span>
+<span id="cb21-56"><a href="#cb21-56"></a>           <span class="dt">color =</span> <span class="st">&quot;#B19CD9&quot;</span>, </span>
+<span id="cb21-57"><a href="#cb21-57"></a>           <span class="dt">size =</span> <span class="dv">4</span>, </span>
+<span id="cb21-58"><a href="#cb21-58"></a>           <span class="dt">fontface =</span> <span class="dv">2</span>,</span>
+<span id="cb21-59"><a href="#cb21-59"></a>           <span class="dt">vjust =</span> <span class="dv">1</span>,</span>
+<span id="cb21-60"><a href="#cb21-60"></a>           <span class="dt">hjust =</span> <span class="dv">1</span>) <span class="op">+</span></span>
+<span id="cb21-61"><a href="#cb21-61"></a><span class="st">  </span></span>
+<span id="cb21-62"><a href="#cb21-62"></a><span class="st">    </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2021-04-01&quot;</span>), <span class="dt">y =</span> <span class="dv">16</span>, </span>
+<span id="cb21-63"><a href="#cb21-63"></a>           <span class="dt">label =</span> <span class="st">&quot;16.5% Not at all&quot;</span>, </span>
+<span id="cb21-64"><a href="#cb21-64"></a>           <span class="dt">color =</span> <span class="st">&quot;#8B008B&quot;</span>, </span>
+<span id="cb21-65"><a href="#cb21-65"></a>           <span class="dt">size =</span> <span class="dv">4</span>, </span>
+<span id="cb21-66"><a href="#cb21-66"></a>           <span class="dt">fontface =</span> <span class="dv">2</span>,</span>
+<span id="cb21-67"><a href="#cb21-67"></a>           <span class="dt">vjust =</span> <span class="dv">1</span>,</span>
+<span id="cb21-68"><a href="#cb21-68"></a>           <span class="dt">hjust =</span> <span class="dv">1</span>)  </span>
+<span id="cb21-69"><a href="#cb21-69"></a>  </span>
+<span id="cb21-70"><a href="#cb21-70"></a>    </span>
+<span id="cb21-71"><a href="#cb21-71"></a><span class="kw">print</span>(Final_Graph) </span></code></pre></div>
+<pre><code>## Warning: Removed 17 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 14 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 13 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 20 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 191 row(s) containing missing values (geom_path).
+
+## Warning: Removed 191 row(s) containing missing values (geom_path).
+
+## Warning: Removed 191 row(s) containing missing values (geom_path).
+
+## Warning: Removed 191 row(s) containing missing values (geom_path).</code></pre>
+<p><img src="visualization_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
