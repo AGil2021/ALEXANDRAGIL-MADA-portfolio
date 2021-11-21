@@ -1,11 +1,242 @@
 ---
-title: "Tidy Tuesday exercise 2"
-output:
-  word_document:
-    toc: no
+title: "Tidy Tuesday Exercise 2"
+output: 
   html_document:
-    toc: no
+    toc: FALSE
 ---
+Marble Runs
 
-Will be filled soon
----
+## Load packages and data
+```{r}
+
+# Load packages
+library(tidyverse)
+library(knitr)
+library(here)
+library(dplyr)
+library(scales)
+#library(ggthemes)
+library(ggplot2)
+library(tidymodels)
+library(vip)
+library(parsnip)
+library(recipes)
+library(magrittr)
+
+# Get the Data
+
+marbles <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-06-02/marbles.csv')
+```
+#What is in my Data?
+```{r}
+skimr::skim(marbles) # for getting a useful summary statistics
+```
+
+The data has 9 character variables and 5 numeric variables. Variable: pole, notes, and points presented a considerable quantity of missing values. Points and Pole have 50% of missing values 
+and notes has 97% of missing values. At this point is no clear the interaction between pole and 
+points but, resulting interesting the fact that bot have 50% of missing values. 
+#Cleaning the Data
+```{r}
+mydata <- marbles%>%
+            select(-pole,-notes, -points, -source)
+#removing other missing values on variables time_s (3) and avg_time_lap (3)
+
+mydata<-mydata%>%na.omit()
+skimr::skim(mydata)
+```
+The variable date shows the month in words ex. "Feb"
+```{r}
+mydata$date <- lubridate::dmy(mydata$date) # date will be expressed as day-month-year
+mydata %>% mutate(date = lubridate::as_date(date)) #convert chr to date class
+class(mydata$date)
+
+summary(mydata)
+```
+
+The dataset is showing different teams doing the same race with the same track_length_m at different avg_time_lap, different days, also the site varies every date and the also the numer_laps varies.
+#Research questions 
+The main question is:Do some marbles race better than others?
+- What factors have incidence in teams performance? 
+    -Speed?
+    -Number of laps?
+    -Host or not?
+- Also is a good idea know what are the teams with better performance?
+
+In order to answer those question we can consider:
+- Outcome of interest: speed, rank
+- Predictors: distance and host
+
+# Outcome of interest
+```{r}
+#Calc speed in m/s
+mydata<- mydata %>% mutate(speed = track_length_m/avg_time_lap)
+
+#Creating the ranking base on the  time_s 
+mydata<- mydata %>% group_by(race) %>% 
+                                mutate(rank =
+                                         rank(time_s, ties.method = "first"))
+#Calc the distance in by the numer of laps in meters
+mydata<- mydata%>% mutate(distance = track_length_m* number_laps)
+
+summary(mydata)
+```
+#Visualization 
+#Performance by teams
+```{r}
+
+ggplot(mydata, aes(team_name, rank)) +geom_boxplot() +
+   theme(axis.text.x = element_text(angle = 45, hjust=1))
+```
+# Distance of race vs average lamp time
+```{r}
+ggplot(mydata, aes(distance, avg_time_lap)) + geom_point()
+```
+# Race performance base on host status
+```{r}
+ggplot(mydata, aes(host, rank)) + geom_boxplot()
+```
+```{r}
+ggplot(mydata, aes(site, speed)) + geom_col() +
+  theme(axis.text.x = element_text(angle = 45, hjust=1))
+```
+###MODELING
+
+## Split into test and train
+```{r}
+# set seed for reproducible analysis (instead of random subset each time)
+set.seed(123)
+#subset 3/4 of data as training set
+data_split <- initial_split(mydata, 
+                            prop = 7/10, 
+                            strata = "rank") #stratify by outcome of interest for balanced split
+                            
+#save sets as data frames
+train_data <- training(data_split)
+test_data <- testing(data_split)
+```
+
+## Set up cross validation
+```{r}
+#create folds (resample object)
+set.seed(123)
+folds <- vfold_cv(train_data, 
+                  v = 5, 
+                  repeats = 5,
+                  strata = "rank") #folds is set up to perform our CV
+```
+
+## Linear model
+```{r}
+#create recipe for data and fitting and make dummy variables. ***The most basic approach to representing categorical values as numeric data is to create dummy variables
+rank_rec <- recipe(rank ~ ., data = train_data) %>%
+ step_dummy(all_nominal_predictors()) %>% 
+ step_zv(all_predictors()) 
+#linear model set up
+lm_mod <- linear_reg() %>% 
+            set_engine('lm') %>% 
+            set_mode('regression')
+
+#workflow set up
+rank_wflow <- 
+  workflow() %>% add_model(lm_mod) %>% add_recipe(rank_rec)
+#use workflow to prepare recipe and train model with predictors
+rank_fit <- 
+  rank_wflow %>% fit(data = train_data)
+#extract model coefficient
+rank_fit %>% extract_fit_parsnip() %>% tidy()
+```
+#Null model
+For a **continuous outcome**, using RMSE as our performance metric, a null-model that doesn't use any predictor information is one that always just predicts the mean of the data. We'll compute the performance of such a "model" here. It's useful for comparison with the real models. We'll print both numbers here, and then compare with our model results below. Since our performance metric is RMSE, we compute that here with the "model prediction" always just being the mean of the outcomes.
+
+```{r}
+RMSE_null_train <- sqrt(sum( (train_data$rank - mean(train_data$rank))^2 )/nrow(train_data))
+RMSE_null_test <- sqrt(sum( (test_data$rank - mean(test_data$rank))^2 )/nrow(test_data))
+print(RMSE_null_train)
+print(RMSE_null_test)
+```
+### Decision tree
+```{r}
+#model specification
+tune_spec <- 
+  decision_tree(
+    cost_complexity = tune(),
+    tree_depth = tune()
+  ) %>% 
+  set_engine("rpart") %>% 
+  set_mode("regression")
+tune_spec
+
+#tuning grid specification
+tree_grid <- grid_regular(cost_complexity(),
+                          tree_depth(),
+                          levels = 5)
+tree_grid
+#cross validation
+set.seed(123)
+cell_folds <- vfold_cv(train_data, v = 5, repeats = 5, strata = 'rank')
+
+#workflow
+set.seed(123)
+tree_wf <- workflow() %>%
+  add_model(tune_spec) %>%
+  add_recipe(rank_rec)
+
+#model tuning with `tune_grid()`
+tree_res <- 
+  tree_wf %>% 
+  tune_grid(
+    resamples = cell_folds,
+    grid = tree_grid
+    )
+tree_res %>% collect_metrics()
+
+#Here we see 25 candidate models, and the RMSE and Rsq for each
+tree_res %>% autoplot() #view plot
+
+#select the best decision tree model
+best_tree <- tree_res %>% select_best("rmse")
+best_tree #view model details
+
+#finalize model workflow with best model
+tree_final_wf <- tree_wf %>%
+  finalize_workflow(best_tree) 
+
+#fit model
+tree_fit <- 
+  tree_final_wf %>% fit(train_data)
+```
+#Plotting final tree.
+
+```{r}
+rpart.plot::rpart.plot(extract_fit_parsnip(tree_fit)$fit)
+```
+###LASSO Model
+
+```{r}
+#model
+lasso_model <- linear_reg() %>%
+  set_mode("regression") %>%           
+  set_engine("glmnet") %>%
+  set_args(penalty = tune(), mixture = 1) #mixture = 1 means we use the LASSO model
+#workflow
+lasso_wf <- workflow() %>%
+  add_model(lasso_model) %>% 
+  add_recipe(rank_rec)
+```
+
+```{r}
+lasso_grid <- tibble(penalty = 10^seq(-3, 0, length.out = 30))
+
+#tuning with CV and tune_grid
+lasso_res <- lasso_wf %>% tune_grid(resamples = folds, 
+                                    grid = lasso_grid, 
+                                    control = control_grid(save_pred = TRUE, verbose = TRUE), 
+                                    metrics = metric_set(rmse))
+#view model metrics
+lasso_res %>% collect_metrics()
+#select top models
+top_lasso <- 
+  lasso_res %>% show_best("rmse") %>% arrange(penalty)
+top_lasso #view
+
+```
